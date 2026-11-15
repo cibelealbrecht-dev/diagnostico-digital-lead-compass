@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteFooter, SiteHeader, WhatsAppButton } from "@/components/site";
 import { DiagnosticoView } from "@/components/diagnostico-view";
+import { mensagemDiagnostico } from "@/lib/constants";
 import { getResultado } from "@/lib/leads.functions";
 
 export const Route = createFileRoute("/resultado/$id")({
@@ -37,7 +38,7 @@ function Resultado() {
     ["Redes sociais", r.redes.join(", ")], ["Frequência de publicação", r.frequencia],
     ["Dificuldades", r.dificuldades.join(", ")], ["Objetivo", r.objetivo],
   ];
-  const msg = `Olá! Sou ${r.responsavel}, do negócio ${r.negocio} (${r.segmento}, ${r.cidade}/${r.estado}). Fiz o Diagnóstico Digital CA e gostaria de solicitar um atendimento para trabalhar meu objetivo de "${r.objetivo.toLowerCase()}".`;
+  const msg = mensagemDiagnostico(r);
   return (
     <div className="min-h-screen bg-muted font-sans">
       <SiteHeader />

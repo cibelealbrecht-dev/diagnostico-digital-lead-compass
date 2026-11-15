@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ClipboardList, Compass, Lightbulb, Target, TrendingUp, Clock, ShieldCheck } from "lucide-react";
 import { SiteFooter, SiteHeader, WhatsAppButton } from "@/components/site";
-import { SLOGAN } from "@/lib/constants";
+import { MENSAGEM_CONTATO, SLOGAN } from "@/lib/constants";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,7 +46,7 @@ function Index() {
             <Link to="/diagnostico" className="inline-flex items-center justify-center gap-2 rounded-lg bg-gold px-6 py-3.5 font-semibold text-gold-foreground shadow-soft transition hover:brightness-105">
               Fazer meu diagnóstico gratuito <ArrowRight className="h-4 w-4" />
             </Link>
-            <WhatsAppButton message="Olá! Vim pelo site do Diagnóstico Digital CA e gostaria de mais informações." className="py-3.5">
+            <WhatsAppButton message={MENSAGEM_CONTATO} className="py-3.5">
               Falar no WhatsApp
             </WhatsAppButton>
           </div>

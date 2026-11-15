@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { BarChart3, MessageCircle } from "lucide-react";
+import { toast } from "sonner";
 import type { ReactNode } from "react";
-import { APP_NAME, SLOGAN, whatsappLink } from "@/lib/constants";
+import { APP_NAME, SLOGAN, WHATSAPP_NUMBER, whatsappLink } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export function Logo({ light = false }: { light?: boolean }) {
@@ -15,17 +16,57 @@ export function Logo({ light = false }: { light?: boolean }) {
   );
 }
 
-export function WhatsAppButton({ message, children, className }: { message: string; children: ReactNode; className?: string | undefined }) {
+/**
+ * Abre o link em uma nova aba. Em uma página aberta diretamente, o próprio
+ * navegador cuida do target="_blank"; dentro de um quadro (iframe) o clique
+ * precisa ser aberto explicitamente para nunca carregar na visualização do app.
+ */
+export function openWhatsApp(href: string) {
+  const popup = window.open(href, "_blank");
+  if (popup) {
+    try {
+      popup.opener = null;
+    } catch {
+      /* nada a fazer */
+    }
+    return true;
+  }
+  return false;
+}
+
+export function WhatsAppAnchor({ href, className, children }: { href: string; className?: string | undefined; children: ReactNode }) {
   return (
     <a
-      href={whatsappLink(message)}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={(e) => {
+        if (window.top === window.self) return; // página aberta diretamente: o navegador abre uma nova aba
+        e.preventDefault();
+        if (openWhatsApp(href)) return;
+        try {
+          if (window.top) window.top.location.href = href;
+          else throw new Error("sem quadro superior");
+        } catch {
+          toast.error("Não foi possível abrir o WhatsApp automaticamente. Clique com o botão direito no botão e escolha “Abrir link em uma nova aba”.");
+        }
+      }}
+      className={className}
+    >
+      {children}
+    </a>
+  );
+}
+
+export function WhatsAppButton({ message, children, className, number = WHATSAPP_NUMBER }: { message: string; children: ReactNode; className?: string | undefined; number?: string }) {
+  return (
+    <WhatsAppAnchor
+      href={whatsappLink(message, number)}
       className={cn("inline-flex items-center justify-center gap-2 rounded-lg bg-whatsapp px-5 py-3 text-sm font-semibold text-whatsapp-foreground transition hover:brightness-110", className)}
     >
       <MessageCircle className="h-4 w-4" />
       {children}
-    </a>
+    </WhatsAppAnchor>
   );
 }
 

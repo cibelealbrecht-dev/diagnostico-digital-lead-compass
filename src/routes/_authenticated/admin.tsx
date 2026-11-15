@@ -3,8 +3,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
 import { ArrowLeft, Loader2, LogOut, Search, Users } from "lucide-react";
-import { Logo } from "@/components/site";
+import { Logo, WhatsAppAnchor } from "@/components/site";
 import { DiagnosticoView } from "@/components/diagnostico-view";
+import { whatsappLink } from "@/lib/constants";
 import { listLeads } from "@/lib/leads.functions";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -78,7 +79,7 @@ function AdminPage() {
                     ["Dificuldades", sel.dificuldades.join(", ")], ["Objetivo", sel.objetivo],
                   ] as [string, string][]).map(([k, v]) => <div key={k}><dt className="text-muted-foreground">{k}</dt><dd className="font-medium">{v}</dd></div>)}
                 </dl>
-                <a href={`https://wa.me/${sel.whatsapp.replace(/\D/g, "").replace(/^(?!55)/, "55")}`} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-whatsapp px-4 py-2.5 text-sm font-semibold text-whatsapp-foreground">Chamar no WhatsApp</a>
+                <WhatsAppAnchor href={whatsappLink("", sel.whatsapp)} className="mt-6 inline-flex w-full items-center justify-center rounded-lg bg-whatsapp px-4 py-2.5 text-sm font-semibold text-whatsapp-foreground">Chamar no WhatsApp</WhatsAppAnchor>
               </aside>
               <DiagnosticoView d={sel.diagnostico} />
             </div>
