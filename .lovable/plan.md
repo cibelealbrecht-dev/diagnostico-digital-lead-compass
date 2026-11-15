@@ -27,6 +27,6 @@ Geradas por regras transparentes baseadas nas respostas (frequência baixa, sem 
 - Motor de regras em `src/lib/diagnostico.ts` com testes unitários.
 - Rotas: `/admin` em `_authenticated`; head() próprio em cada página.
 
-## Pendências (vou usar provisórios se não informados)
-- Número de WhatsApp para contato.
-- E-mail do administrador.
+## Dados de contato
+- WhatsApp: +55 53 99991-7479
+- Administrador inicial: diagnosticodigital.ca@gmail.com

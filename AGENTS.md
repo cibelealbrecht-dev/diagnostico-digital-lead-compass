@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Lead submit and result read go through public server functions using the admin client after zod validation; leads are only readable via RLS by `has_role(admin)`. Why: visitors never get table access.
+- Initial admin role is granted by a trigger on auth.users matching the configured email. Why: no manual role setup needed.
+- Diagnosis rules live in `src/lib/diagnostico.ts` (tested). Why: transparent, deterministic recommendations.
